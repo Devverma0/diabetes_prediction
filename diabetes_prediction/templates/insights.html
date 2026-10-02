@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="box wide">
+  <h1>Model Insights</h1>
+  <p>Best model: <b>{{ best }}</b></p>
+
+  <table>
+    <tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th></tr>
+    {% for name, r in results.items() %}
+      <tr><td>{{ name }}</td><td>{{ r.accuracy }}%</td><td>{{ r.precision }}%</td>
+          <td>{{ r.recall }}%</td><td>{{ r.f1 }}%</td></tr>
+    {% endfor %}
+  </table>
+
+  <div class="charts">
+    <div><h3>Model Accuracy</h3><canvas id="c1"></canvas></div>
+    <div><h3>Feature Importance</h3><canvas id="c2"></canvas></div>
+    <div><h3>Dataset Distribution</h3><canvas id="c3"></canvas></div>
+  </div>
+
+  <h3>Confusion Matrix ({{ best }})</h3>
+  <table class="cm">
+    <tr><th></th><th>Predicted No</th><th>Predicted Yes</th></tr>
+    <tr><th>Actual No</th><td>{{ cm[0][0] }}</td><td>{{ cm[0][1] }}</td></tr>
+    <tr><th>Actual Yes</th><td>{{ cm[1][0] }}</td><td>{{ cm[1][1] }}</td></tr>
+  </table>
+  <p>Dataset: PIMA Indians Diabetes (768 records, 8 features)</p>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const d = {{ chart_data|tojson }};
+  Chart.defaults.color = "#cbd5e1";
+  Chart.defaults.borderColor = "rgba(255,255,255,.1)";
+  new Chart(document.getElementById("c1"), {
+    type: "bar",
+    data: { labels: d.models, datasets: [{ label: "Accuracy %", data: d.accuracy, backgroundColor: "#2563eb" }] }
+  });
+  new Chart(document.getElementById("c2"), {
+    type: "bar",
+    data: { labels: d.features, datasets: [{ label: "Importance %", data: d.importance, backgroundColor: "#06b6d4" }] },
+    options: { indexAxis: "y" }
+  });
+  new Chart(document.getElementById("c3"), {
+    type: "doughnut",
+    data: { labels: ["No Diabetes", "Diabetes"], datasets: [{ data: d.distribution, backgroundColor: ["#22c55e", "#ef4444"] }] }
+  });
+</script>
+{% endblock %}

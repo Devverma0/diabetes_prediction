@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="box wide">
+  <h1>Prediction History</h1>
+  {% if rows %}
+  <table>
+    <tr><th>Time</th><th>Glucose</th><th>BMI</th><th>Age</th><th>Risk</th><th>Probability</th></tr>
+    {% for t, i, r, p in rows %}
+      <tr><td>{{ t }}</td><td>{{ i.Glucose }}</td><td>{{ i.BMI }}</td><td>{{ i.Age }}</td>
+          <td>{{ r }}</td><td>{{ p }}%</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    <p>Abhi koi prediction nahi hui hai.</p>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="predict-wrap">
+  <div class="box reveal">
+    <h1>🔍 Health Check</h1>
+    <p class="mut">Neeche apni details bharo.</p>
+    <form method="POST" class="predict-form">
+      <div class="grid">
+        {% for name, label in fields %}
+          <div><label>{{ label }}</label>
+          <input type="number" step="any" name="{{ name }}" required value="{{ request.form.get(name, '') }}"></div>
+        {% endfor %}
+      </div>
+      <button class="btn full" type="submit">Predict Now ✨</button>
+    </form>
+  </div>
+
+  <div class="box side reveal">
+    {% if result and result.error %}
+      <h2>⚠️ Error</h2><p class="verdict bad">{{ result.error }}</p>
+    {% elif result %}
+      <h2>Your Result</h2>
+      <div class="gauge {{ 'bad' if result.pred else 'good' }}">
+        <svg viewBox="0 0 120 120">
+          <circle class="track" cx="60" cy="60" r="54"/>
+          <circle class="ring" cx="60" cy="60" r="54" style="--off:{{ (339.3 * (1 - result.prob / 100))|round(1) }}"/>
+        </svg>
+        <div class="gval"><b data-count="{{ result.prob }}" data-suffix="%">0</b><small>Risk</small></div>
+      </div>
+      {% if result.pred == 1 %}
+        <p class="verdict bad">⚠️ Risk high hai. Doctor se zaroor milo.</p>
+      {% else %}
+        <p class="verdict good">✅ Risk kam hai. Healthy rehte raho!</p>
+      {% endif %}
+    {% else %}
+      <h2>💡 Healthy Tips</h2>
+      <ul class="tips">
+        <li>🥗 Balanced diet lo</li>
+        <li>🏃 Roz 30 min exercise karo</li>
+        <li>💧 Paani zyada piyo</li>
+        <li>😴 7-8 ghante ki neend lo</li>
+      </ul>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
