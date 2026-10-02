@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <span class="badge">✨ AI Powered Health Check</span>
+  <h1>Predict <span class="grad">Diabetes</span> Risk<br>in Seconds</h1>
+  <p>Machine Learning model jo aapki health details dekh kar diabetes ka risk batata hai.</p>
+  <svg class="ecg" viewBox="0 0 400 100"><path d="M0 50 L90 50 L110 20 L135 85 L160 50 L250 50 L270 10 L295 90 L320 50 L400 50"/></svg>
+  <div class="cta">
+    <a class="btn" href="/predict">Check Now →</a>
+    <a class="btn ghost" href="/insights">View Insights</a>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat reveal"><b data-count="768">0</b><span>Patient Records</span></div>
+  <div class="stat reveal"><b data-count="8">0</b><span>Health Features</span></div>
+  <div class="stat reveal"><b data-count="5">0</b><span>ML Models</span></div>
+  <div class="stat reveal"><b data-count="75" data-suffix="%+">0</b><span>Accuracy</span></div>
+</section>
+
+<h2 class="section-title reveal">Kaise kaam karta hai?</h2>
+<section class="cards">
+  <div class="card reveal"><span class="ic">📝</span><h3>1. Details Daalo</h3><p>Glucose, BMI, Age jaisi 8 health details bharo.</p></div>
+  <div class="card reveal"><span class="ic">🤖</span><h3>2. AI Analyse Kare</h3><p>Trained ML model data ko process karta hai.</p></div>
+  <div class="card reveal"><span class="ic">📊</span><h3>3. Result Pao</h3><p>Risk percentage animated gauge me dikhta hai.</p></div>
+</section>
+{% endblock %}
